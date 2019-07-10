@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>type:'pie'标签及其子内容测试</title>
+    <script src="echarts_js/echarts.min.js"></script>
+</head>
+<body>
+<h1>type:'pie'标签及其子内容测试</h1>
+<p>李京洋的饼图</p>
+<div id="shangyang" style="width: 600px;height:400px;"></div>
+<script>
+    var myChart = echarts.init(document.getElementById('shangyang'));
+    var option = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            x: 'left',
+            data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+        },
+        series: [
+            {           
+                name:'访问来源',
+                type:'pie',
+                legendHoverLink:true,         // 是否启用图例 hover 时的联动高亮
+                hoverAnimation:true,          // 是否开启 hover 在扇区上的放大动画效果
+                hoverOffset:10,               // 高亮扇区的偏移距离
+                selectedMode:false,           // 选中模式，表示是否支持多个选中
+                selectedOffset:10,            // 选中扇区的偏移距离
+                clockwise:true,               // 饼图的扇区是否是顺时针排布
+                startAngle:90,                // 起始角度
+                minAngle:0,                   // 最小的扇区角度
+                roseType:false,               // 是否展示成南丁格尔图
+                avoidLabelOverlap: false,     // 是否启用防止标签重叠策略
+                label: {                      // 饼图图形上的文本标签
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },                       
+                    emphasis: {
+                        show: true,
+                        textStyle: {
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                labelLine: {                  // 标签的视觉引导线样式
+                    normal: {
+                        show: false
+                    }
+                },
+                center:['50%', '50%'],        // 饼图的中心（圆心）坐标
+                radius: ['40%', '70%'],       // 饼图的半径
+                data:[
+                    {value:335, name:'直接访问'},
+                    {value:310, name:'邮件营销'},
+                    {value:234, name:'联盟广告'},
+                    {value:135, name:'视频广告'},
+                    {value:1548, name:'搜索引擎'}
+                ]
+            }
+        ]
+    };
+
+    myChart.setOption(option);  
+</script>
+</body>
+</html>

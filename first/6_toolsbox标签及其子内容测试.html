@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>toolsbox标签及其子内容的测试</title>
+    <script src="echarts_js/echarts.min.js"></script>
+</head>
+<body>
+<h1>toolsbox标签及其子内容的测试</h1>
+<p>李京洋的工具图</p>
+<div id="shangyang" style="width: 600px;height:400px;"></div>
+<script>
+    var myChart = echarts.init(document.getElementById('shangyang'));
+    var option = {
+        title: {
+            text: '李京洋的工具栏',
+            subtext: '纯属虚构'
+        },
+        /*工具栏*/
+        toolbox: {
+            show: true,             // 是否显示工具栏组件
+            orient:'vertical',      // 工具栏 icon 的布局朝向
+            itemSize:20,            // 工具栏 icon 的大小
+            itemGap:15,             // 工具栏 icon 每项之间的间隔
+            showTitle:true,         // 是否在鼠标 hover 的时候显示每个工具 icon 的标题
+            feature: {              // 各工具配置项。
+                dataZoom: {         // 数据区域缩放
+                    yAxisIndex: 'none'
+                },
+                dataView: {readOnly: false},   // 数据视图工具
+                magicType: {type: ['line', 'bar']},  // 动态类型切换
+                restore: {},         // 配置项还原
+                saveAsImage: {}      // 保存为图片
+            },
+            iconStyle:{}             // 公用的 icon 样式设置
+        },
+        xAxis:  {
+            type: 'category',
+            boundaryGap: false,
+            data: ['周一','周二','周三','周四','周五','周六','周日']
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel: {
+                formatter: '{value} °C'
+            }
+        },
+        series: [
+            {
+                name:'最高气温',
+                type:'line',
+                data:[11, 11, 15, 13, 12, 13, 10],
+                markPoint: {
+                    data: [
+                        {type: 'max', name: '最大值'},
+                        {type: 'min', name: '最小值'}
+                    ]
+                },
+                markLine: {
+                    data: [
+                        {type: 'average', name: '平均值'}
+                    ]
+                }
+            },
+        ]
+    };
+
+
+    myChart.setOption(option);  
+</script>
+</body>
+</html>

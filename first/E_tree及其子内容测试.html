@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>type:'tree'标签及其子内容测试</title>
+    <script src="echarts_js/echarts.min.js"></script>
+    <script src="echarts_js/jquery-3.4.0.min.js"></script>
+</head>
+<body>
+<h1>type:'tree'标签及其子内容测试</h1>
+<p>李京洋的树图</p>
+<div id="shangyang" style="width: 600px;height:600px;"></div>
+<script>
+    var myChart = echarts.init(document.getElementById('shangyang'));
+    myChart.showLoading();
+    $.get('echarts_js/flare.json', function (data) {
+        myChart.hideLoading();
+        echarts.util.each(data.children, function (datum, index) {
+            index % 2 === 0 && (datum.collapsed = true);
+        });
+        myChart.setOption(option = {
+            tooltip: {
+                trigger: 'item',
+                triggerOn: 'mousemove'
+            },
+            series: [
+                {
+                    type: 'tree',
+                    data: [data],
+                    top: '1%',                // 离容器上侧的距离
+                    left: '7%',               // 离容器左侧的距离
+                    bottom: '1%',             // 离容器下侧的距离
+                    right: '20%',             // 离容器右侧的距离
+                    width:null,               // 组件的宽度
+                    height:null,              // 组件的高度
+                    layout: 'orthogonal',     // 树图的布局
+                    orient:'LR',              // 树图中正交布局的方向
+                    symbol:'arrow',           // 标记的图形
+                    symbolSize: 7,            // 标记的大小
+                    roam:'move',              // 是否开启鼠标缩放和平移漫游
+                    expandAndCollapse: true,  // 子树折叠和展开的交互
+                    initialTreeDepth:5,       // 树图初始展开的层级（深度）
+                    label: {                  // 描述了每个节点所对应的文本标签的样式
+                        normal: {
+                            position: 'left',
+                            verticalAlign: 'middle',
+                            align: 'right',
+                            fontSize: 9
+                        }
+                    },
+                    leaves: {                 // 叶子节点的特殊配置
+                        label: {
+                            normal: {
+                                position: 'right',
+                                verticalAlign: 'middle',
+                                align: 'left'
+                            }
+                        }
+                    },
+                    animationDuration: 550,        // 初始动画的时长
+                    animationDurationUpdate: 750   // 数据更新动画的时长
+                }
+            ]
+        });
+    });
+</script>
+</body>
+</html>

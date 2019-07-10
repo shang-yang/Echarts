@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>type:'graph'标签及其子内容测试</title>
+    <script src="echarts_js/echarts.min.js"></script>
+    <script src="echarts_js/dataTool.min.js"></script>
+    <script src="echarts_js/jquery-3.4.0.min.js"></script>
+</head>
+<body>
+<p>李京洋的关系图</p>
+<h1>type:'graph'标签及其子内容测试</h1>
+<div id="shangyang" style="width: 600px;height:600px;"></div>
+<script>
+    var myChart = echarts.init(document.getElementById('shangyang'));
+    myChart.showLoading();
+    $.get('echarts_js/les-miserables.xml', function (xml) {
+        myChart.hideLoading();
+        var graph = echarts.dataTool.gexf.parse(xml);
+        var categories = [];
+        for (var i = 0; i < 9; i++) {
+            categories[i] = {
+                name: '类目' + i
+            };
+        }
+        graph.nodes.forEach(function (node) {
+            node.itemStyle = null;
+            node.value = node.symbolSize;
+            node.symbolSize /= 1.5;
+            node.label = {
+                normal: {
+                    show: node.symbolSize > 30
+                }                                       
+            };
+            node.category = node.attributes.modularity_class;
+        });
+        option = {
+            series : [
+                {
+                    name: 'Les Miserables',
+                    type: 'graph',
+                    legendHoverLink:true,       // 是否启用图例hover时的联动高亮
+                    coordinateSystem:null,      // 不使用坐标系
+                    hoverAnimation:true,        // 开启鼠标hover节点的提示动画效果
+                    layout: 'none',             // 不采用任何布局
+                    roam: true,                 // 开启鼠标缩放和平移漫游
+                    nodeScaleRatio:0.6,         // 鼠标漫游缩放时节点的相应缩放比例
+                    focusNodeAdjacency: true,   // 在鼠标移到节点上的时候突出显示节点以及节点的边和邻接节点
+                    data: graph.nodes,          // 关系图的节点数据列表
+                    links: graph.links,         // 节点间的关系数据
+                    categories: categories,     // 节点分类的类目
+                    itemStyle: {                // 图形样式
+                        normal: {
+                            borderColor: '#fff',
+                            borderWidth: 1,
+                            shadowBlur: 10,
+                            shadowColor: 'rgba(0, 0, 0, 0.3)'
+                        }
+                    },
+                    label: {                    // 图形上的文本标签
+                        position: 'right',
+                        formatter: '{b}'
+                    },
+                    lineStyle: {                // 关系边的公用线条样式
+                        color: 'source',
+                        curveness: 0.3
+                    },
+                    emphasis: {                 // 高亮的图形样式
+                        lineStyle: {
+                            width: 10
+                        }
+                    }
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+    }, 'xml');
+</script>
+</body>
+</html>

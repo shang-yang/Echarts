@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>type:'scatter'标签及其子内容测试</title>
+    <script src="echarts_js/echarts.min.js"></script>
+</head>
+<body>
+<h1>type:'scatter'标签及其子内容测试</h1>
+<p>李京洋带有涟漪特效动画的散点图</p>
+<div id="shangyang" style="width: 600px;height:400px;"></div>
+<script>
+    var myChart = echarts.init(document.getElementById('shangyang'));
+    var option = {
+        xAxis: {},
+        yAxis: {},
+        series: [{
+            type: 'effectScatter',
+            effectType: 'ripple',          // 特效类型
+            showEffectOn:'render',         // 绘制完成后显示特效
+            rippleEffect:{                 // 涟漪特效相关配置
+                period:5,                  // 动画的周期
+                scale:3,                   // 动画中波纹的最大缩放比例
+                brushType:'stroke',        // 波纹的绘制方式
+            },                           
+            coordinateSystem:'cartesian2d',// 该系列使用的坐标系
+            symbol:'circle',               // 标记的图形
+            symbolSize: 20,                // 标记的大小
+            symbolOffset: [0, 0],          // 标记相对于原本位置的偏移
+            data: [
+                [10.0, 8.04],
+                [8.0, 6.95],
+                [13.0, 7.58],
+                [9.0, 8.81],
+                [11.0, 8.33],
+                [14.0, 9.96],
+                [6.0, 7.24],
+                [4.0, 4.26],
+                [12.0, 10.84],
+                [7.0, 4.82],
+                [5.0, 5.68]
+            ],
+        }]
+    };
+    myChart.setOption(option);
+</script>
+</body>
+</html>

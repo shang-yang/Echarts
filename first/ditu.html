@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>散点图</title>
+    <script src="echarts_js/echarts.min.js"></script>
+</head>
+<body>
+<div id="shangyahng" style="width: 600px;height:400px;"></div>
+<script>
+
+    var myChart = echarts.init(document.getElementById('shangyahng'));
+
+
+    var option = {
+
+        series: {
+            type:'map',
+            
+        }
+    };
+
+    myChart.setOption(option);  
+</script>
+</body>
+</html>

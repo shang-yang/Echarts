@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>tooltip和axisPointer标签及其子内容测试</title>
+    <script src="echarts_js/echarts.min.js"></script>
+</head>
+<body>
+<h1>tooltip和axisPointer标签及其子内容测试</h1>
+<p><李京洋的提示框组件和坐标指示器></李京洋的提示框组件和坐标指示器></p>
+<div id="shangyang" style="width: 600px;height:400px;"></div>
+<script>
+
+    var myChart = echarts.init(document.getElementById('shangyang'));
+
+
+    var option = {
+        /*提示框组件*/
+        tooltip:{
+            show:true,               // 是否显示提示框组件
+            trigger:'axis',          // 触发类型
+            showContent:true,        // 是否显示提示框浮层
+            alwaysShowContent:true,  // 是否永远显示提示框内容
+            triggerOn:'mousemove',   // 提示框触发的条件
+            showDelay:0,             // 浮层显示的延迟
+            hideDelay:100,           // 浮层隐藏的延迟
+            enterable:true,          // 鼠标是否可进入提示框浮层中
+            renderMode:'html',       // 浮层的渲染模式
+            confine:false,           // 是否将 tooltip 框限制在图表的区域内
+            transitionDuration:0.5,  // 提示框浮层的移动动画过渡时间
+            formatter:'{b0}: {c0}',  // 提示框浮层内容格式器
+            backgroundColor:'pink',  // 提示框浮层的背景颜色
+            borderColor:'black',     // 提示框浮层的边框颜色
+            borderWidth:1,           // 提示框浮层的边框宽
+            padding:5,               // 提示框浮层的边框宽
+            textStyle:{},            // 提示框浮层的文本样式
+        },
+        /*这是坐标轴指示器（axisPointer）的全局公用设置*/
+        axisPointer:{
+            show:true,
+            type:'line',           // 指示器类型
+            snap:true,             // 坐标轴指示器是否自动吸附到点上
+            label:{},              // 坐标轴指示器的文本标签
+            lineStyle:{},          // 直线指示器的样式
+            triggerTooltip:true,   // 是否触发 tooltip
+        },
+        xAxis: {
+            type: 'category',
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            data: [120, 200, 150, 80, 70, 110, 130],
+            type: 'bar'
+        }]
+    };
+
+    myChart.setOption(option);  
+</script>
+</body>
+</html>

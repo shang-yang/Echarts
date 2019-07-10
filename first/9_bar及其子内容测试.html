@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>type:'bar'标签及其子内容测试</title>
+    <script src="echarts_js/echarts.min.js"></script>
+</head>
+<body>
+<h1>type:'bar'标签及其子内容测试</h1>
+<p>李京洋的柱状图</p>
+<div id="shangyang" style="width: 600px;height:400px;"></div>
+<script>
+    var myChart = echarts.init(document.getElementById('shangyang'));
+    var option = {
+        xAxis: {
+            type: 'category',
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            type: 'bar',
+            name:'李京洋的柱状图',              // 系列名称
+            legendHoverLink:true,             // 是否启用图例 hover 时的联动高亮
+            coordinateSystem:'cartesian2d',   // 该系列使用的坐标系
+            label:{},                         // 图形上的文本标签
+            itemStyle:{},                     // 图形样式
+            emphasis:{},                      // 高亮的图形样式和标签样式
+            barWidth:40,                      // 柱条的宽度
+            barMaxWidth:40,                   // 柱条的最大宽度
+            barMinHeight:0,                   // 柱条最小高度
+            barGap:'30%',                     // 不同系列的柱间距离
+            barCategoryGap:'20%',             // 同一系列的柱间距离
+            large:true,                       // 是否开启大数据量优化
+            largeThreshold:400,               // 开启绘制优化的阈值
+            progressive:5000,                 // 渐进式渲染时每一帧绘制图形数量
+            progressiveThreshold:3000,        // 启用渐进式渲染的图形数量阈值
+            progressiveChunkMode:'mod',       // 分片的方式
+            data: [120, 200, 150, 80, 70, 110, 130],
+
+        }]
+    };
+
+    myChart.setOption(option);
+</script>
+</body>
+</html>

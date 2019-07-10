@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>type:'gauge'及其子内容测试</title>
+    <script src="echarts_js/echarts.min.js"></script>
+</head>
+<body>
+<h1>type:'gauge'及其子内容测试</h1>
+<p>李京洋的仪表图</p>
+<div id="shangyang" style="width: 600px;height:400px;"></div>
+<script>
+
+    var myChart = echarts.init(document.getElementById('shangyang'));
+
+
+    var option = {
+        series: [
+            {
+                name: '业务指标',
+                type: 'gauge',
+                radius:'75%',          // 仪表盘半径
+                startAngle:225,        // 仪表盘起始角度
+                endAngle:-45,          // 仪表盘结束角度
+                clockwise:true,        // 仪表盘刻度是否是顺时针增长
+                splitNumber:10,        // 仪表盘刻度的分割段数
+                axisLine:{},           // 仪表盘轴线相关配置
+                splitLine:{},          // 分隔线样式
+                axisTick:{},           // 刻度样式
+                axisLabel:{},          // 刻度标签
+                pointer:{},            // 仪表盘指针
+                itemStyle:{},          // 仪表盘指针样式
+                emphasis:{},           // 高亮的仪表盘指针样式
+                title:{},              // 仪表盘标题
+                detail: {formatter:'{value}%'},   // 仪表盘详情，用于显示数据
+                data: [{value: 50, name: '完成率'}]
+            }
+        ]
+    };
+
+    setInterval(function () {
+        option.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0;
+        myChart.setOption(option, true);
+    },2000);
+
+</script>
+</body>
+</html>

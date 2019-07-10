@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>type:'line'标签及其子内容测试</title>
+    <script src="echarts_js/echarts.min.js"></script>
+</head>
+<body>
+<h1>type:'line'标签及其子内容测试</h1>
+<p>李京洋的折线图</p>
+<div id="shangyang" style="width: 600px;height:400px;"></div>
+<script>
+    var myChart = echarts.init(document.getElementById('shangyang'));
+    var option = {
+        xAxis: {
+            type: 'category',
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            type: 'line',
+            name:'李京洋的折线图',               // 系列名称
+            coordinateSystem:'cartesian2d',    // 使用二维的直角坐标系（也称笛卡尔坐标系）
+            xAxisIndex:0,                      // 使用的 x 轴的 index
+            yAxisIndex:0,                      // 使用的 y 轴的 index
+            symbol: 'triangle' ,               // 标记的图形
+            symbolSize:10,                     // 标记的大小
+            symbolRotate:20,                   // 标记的旋转角度
+            symbolKeepAspect:false,            // 如果 symbol 是 path:// 的形式，是否在缩放时保持该图形的长宽比
+            symbolOffset: [0, 0],              // 标记相对于原本位置的偏移
+            showSymbol:true,                   // 是否显示 symbol
+            showAllSymbol:true,                // 显示所有图形
+            hoverAnimation:true,               // 是否开启 hover 在拐点标志上的提示动画效果
+            legendHoverLink:true,              // 是否启用图例 hover 时的联动高亮
+            stack:true,                        // 数据堆叠
+            cursor: 'pointer',                 // 鼠标悬浮时在图形元素上时鼠标的样式是什么
+            connectNulls:false,                // 是否连接空数据
+            clipOverflow:true,                 // 是否对超出部分裁剪
+            step:false,                        // 是否是阶梯线图
+            label:{},                          // 图形上的文本标签
+            itemStyle:{},                      // 折线拐点标志的样式
+            lineStyle:{},                      // 线条样式
+            areaStyle:{                        // 区域填充样式
+                color:"#FFF"
+            },                                 
+            emphasis:{                         // 图形的高亮样式
+                label:{},
+                itemStyle:{}
+            },
+            smooth: true,                      // 是否平滑曲线显示
+            data: [820, 932, 901, 934, 1290, 1330, 1320],
+            markPoint:{},                      // 图表标注
+            markLine:{},                       // 图表标线
+            markArea:{},                       // 图表标域
+            silent:true,                       // 图形是否不响应和触发鼠标事件
+            animation:true,                    // 是否开启动画
+        }]
+    };
+    myChart.setOption(option);  
+</script>
+</body>
+</html>

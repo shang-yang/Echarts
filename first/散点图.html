@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>散点图</title>
+    <script src="echarts_js/echarts.min.js"></script>
+</head>
+<body>
+<div id="shangyang" style="width: 600px;height:400px;"></div>
+<script>
+
+    var myChart = echarts.init(document.getElementById('shangyang'));
+
+
+    var option = {
+        xAxis: {},
+        yAxis: {},
+        series: [{
+            symbol:'pin',
+            symbolSize: 25,
+            data: [
+                [10.0, 8.04],
+                [8.0, 6.95],
+                [13.0, 7.58],
+                [9.0, 8.81],
+                [11.0, 8.33],
+                [14.0, 9.96],
+                [6.0, 7.24],
+                [4.0, 4.26],
+                [12.0, 10.84],
+                [7.0, 4.82],
+                [5.0, 5.68]
+            ],
+            type: 'effectScatter',
+            effectType:'ripple',
+            rippleEffect:{
+                period:1,
+                scale:5,
+                brushType:'stroke',
+            }
+        }]
+    };
+
+    myChart.setOption(option);  
+</script>
+</body>
+</html>

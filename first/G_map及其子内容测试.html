@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>type:'map'标签及其子标签测试</title>
+    <script src="echarts_js/echarts.min.js"></script>
+    <script src="echarts_js/jquery-3.4.0.min.js"></script>
+</head>
+<body>
+<h1>type:'map'标签及其子标签测试</h1>
+<p>李京洋的地图</p>
+<div id="shangyang" style="width: 600px;height:400px;"></div>
+<script>
+    var myChart = echarts.init(document.getElementById('shangyang'));
+    myChart.showLoading();
+    $.get('echarts_js/HK.json', function (geoJson) {
+        myChart.hideLoading();
+        echarts.registerMap('HK', geoJson);
+        myChart.setOption(option = {
+            title: {
+                text: '香港18区人口密度 （2011）',
+                subtext: '人口密度数据来自Wikipedia',
+
+            },
+            visualMap: {
+                min: 800,
+                max: 50000,
+                text:['High','Low'],
+                realtime: false,
+                calculable: true,
+                inRange: {
+                    color: ['lightskyblue','yellow', 'orangered']
+                }
+            },
+            series: [
+                {
+                    name: '香港18区人口密度',
+                    type: 'map',
+                    map: 'HK', // 自定义扩展图表类型
+                    roam:true, // 是否开启鼠标缩放和平移漫游
+                    //center 当前视角的中心点
+                    aspectScale:0.75,        // 这个参数用于 scale 地图的长宽比
+                    boundingCoords:null,     // 二维数组，定义定位的左上角以及右下角分别所对应的经纬度
+                    zoom:1,                  // 当前视角的缩放比例
+                    scaleLimit:{             // 滚轮缩放的极限控制
+                        min:1,         // 最小的缩放值
+                        max:10,        // 最大的缩放值
+                    },
+                    selectedMode:false,     // 选中模式
+                    markPoint:{},           // 图表标注
+                    markLine:{},            // 图表标线
+                    markArea:{},            // 图表标域
+                    itemStyle:{             // 地图区域的多边形 图形样式
+                        normal:{label:{show:true}},
+                        emphasis:{label:{show:true}}
+                    },
+                    // 自定义名称映射
+                    nameMap: {
+                        'Central and Western': '中西区',
+                        'Eastern': '东区',
+                        'Islands': '离岛',
+                        'Kowloon City': '九龙城',
+                        'Kwai Tsing': '葵青',
+                        'Kwun Tong': '观塘',
+                        'North': '北区',
+                        'Sai Kung': '西贡',
+                        'Sha Tin': '沙田',
+                        'Sham Shui Po': '深水埗',
+                        'Southern': '南区',
+                        'Tai Po': '大埔',
+                        'Tsuen Wan': '荃湾',
+                        'Tuen Mun': '屯门',
+                        'Wan Chai': '湾仔',
+                        'Wong Tai Sin': '黄大仙',
+                        'Yau Tsim Mong': '油尖旺',
+                        'Yuen Long': '元朗'
+                    },
+                    data:[
+                        {name: '中西区', value: 20057.34},
+                        {name: '湾仔', value: 15477.48},
+                        {name: '东区', value: 31686.1},
+                        {name: '南区', value: 6992.6},
+                        {name: '油尖旺', value: 44045.49},
+                        {name: '深水埗', value: 40689.64},
+                        {name: '九龙城', value: 37659.78},
+                        {name: '黄大仙', value: 45180.97},
+                        {name: '观塘', value: 55204.26},
+                        {name: '葵青', value: 21900.9},
+                        {name: '荃湾', value: 4918.26},
+                        {name: '屯门', value: 5881.84},
+                        {name: '元朗', value: 4178.01},
+                        {name: '北区', value: 2227.92},
+                        {name: '大埔', value: 2180.98},
+                        {name: '沙田', value: 9172.94},
+                        {name: '西贡', value: 3368},
+                        {name: '离岛', value: 806.98}
+                    ],
+
+                }
+            ]
+        });
+    });
+</script>
+</body>
+</html>

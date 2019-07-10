@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" >
+    <base href="https://security.tencent.com/" >
+    <!--[if lte IE 6]></base><![endif]-->
+
+
+    <title>
+        腾讯安全应急响应中心        </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="description" content="腾讯安全应急响应中心,Tencent Security Response Center,TSRC">
+    <meta name="keywords" content="腾讯,Tencent,安全团队,应急响应,腾讯安全应急响应中心,Tencent Security Response Center,TSRC">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon shortcut" href="static/v2.0/images/favicon.ico">
+    <link rel="stylesheet" href="static/v2.0/css/main.min.css?t=20160310">
+    <!--[if (gte IE 6)&(lte IE 8)]>
+    <script type="text/javascript" src="static/plugins/selectivizr.min.js"></script>
+    <script type="text/javascript" src="static/plugins/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="static/plugins/jquery.js"></script>
+    <script src="http://localhost:63342/first/echarts_js/echarts.min.js"></script>
+    <style type="text/css">
+        .header>div .userpanel .userpanel_login .login-btn-1 {
+            width: 80px;
+            margin: 0 2px;
+            -webkit-transition: color .2s,border-color .2s,width .5s,height .5s,line-height .5s;
+            transition: color .2s,border-color .2s,width .5s,height .5s,line-height .5s;
+        }
+        .header>div .userpanel .userpanel_login .login-btn-2 {
+            width: 80px;
+            margin: 0 2px;
+            -webkit-transition: color .2s,border-color .2s,width .5s,height .5s,line-height .5s;
+            transition: color .2s,border-color .2s,width .5s,height .5s,line-height .5s;
+        }
+
+        .header>div .userpanel .userpanel_login .login-qq {margin-left:10px;}
+
+        .header>div .logo>a .logo_pic {
+            background-image: -webkit-image-set(url(static/v2.0/images/logo@1x.png?t=20180424) 1x,url(static/v2.0/images/logo@2x.png?t=20180424) 2x);
+        }
+
+        .header>div .userpanel .userpanel_user .user_username { max-width: 80px; }
+
+        .header>div .nav {
+            float: left;
+            margin-left: 10px;
+        }
+
+        .header>div .header-separator {
+            content: '';
+            position: absolute;
+            width: 1px;
+            height: 28px;
+            margin-left: 3px;
+            margin-top: 31px;
+            background-color: #d9d9d9;
+            -webkit-transition: height .5s,margin-top .5s;
+            transition: height .5s,margin-top .5s;
+        }
+
+        .header-scroll>div .header-separator {
+            height: 17px;
+            margin-top: 18px;
+            margin-left: 3px;
+            content: '';
+            position: absolute;
+            width: 1px;
+            background-color: #d9d9d9;
+            transition: height .5s,margin-top .5s;
+        }
+
+        .header-change {
+            height:90px;
+            line-height:90px;
+            float:right;
+        }
+
+        .header-change a {
+            position: absolute;
+            margin-left: 10px;
+            text-decoration:none;
+        }
+
+        .header-change a:hover{
+            color: #4183c4;
+        }
+
+        .header-scroll>div .header-change {
+            height:50px;
+            line-height:50px;
+            float:right;
+        }
+
+        .header>div .userpanel .userpanel_user .user_menu {width: 185px;}
+
+        .header>div .nav>ul {margin-right:0px;}
+
+        .header>div .nav>ul>li {margin: 0 8px;}
+
+
+
+        .shangyang{
+            position: fixed;
+            bottom:20px;
+            right:20px;
+            z-index: 999999999999999999999999;
+        }
+    </style>
+
+</head>
+<script type="text/javascript">
+    $(function(){
+
+        // 选择导航栏
+        var top_tab = 'index';
+        $('.header .nav li[name='+ top_tab +']').attr('class', 'nav_item-active');
+
+        // 登录处理
+        seajs.use('modules/utils', function(m) {
+
+            // 设置登录url
+            var cur_url = encodeURIComponent(location.href);
+            $('.login-qq').attr('href', 'index.php/login/in?type=qq&redirect_uri='+cur_url);
+            $('.login-wx').attr('href', 'index.php/login/in?type=wx&redirect_uri='+cur_url);
+
+            // 如果是在微信上访问，则使用授权登录
+            if (m.iswechat()) {
+                $('.login-wx').attr('href', 'index.php/login/in?type=wxgz&redirect_uri='+cur_url);
+            }
+
+            // 绑定退出登录事件
+            m.logout_bind('logout');
+        });
+
+        // 导航栏效果
+        $(window).scroll(function () {
+            if($(this).scrollTop() > 80) {
+                $('.header').addClass('header-scroll');
+            } else {
+                $('.header').removeClass('header-scroll');
+            }
+        });
+    });
+</script>
+<body>
+
+<div class="header">
+    <div>
+        <div class="logo">
+            <a href="index.php">
+                <div class="logo_pic">
+                </div>
+                <div class="logo_name">
+                    <p>腾讯安全应急响应中心</p>
+                    <p>Tencent Security Response Center</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="nav">
+            <ul>
+                <li name="index"><a href="index.php">首页</a></li>
+                <li name="report_add"><a href="index.php/report/add">提交漏洞</a></li>
+                <li name="thanks"><a href="index.php/thanks">英雄榜</a></li>
+                <li name="shop"><a href="index.php/shop">礼品</a></li>
+                <li name="blog"><a href="index.php/blog">博客</a></li>
+                <li name="opensource"><a href="index.php/opensource">实验室</a></li>
+                <li name="aixin"><a href="index.php/aixin">公益</a></li>
+                <li name="xsrc"><a href="index.php/xsrc">xSRC</a></li>
+                <li name="about"><a href="index.php/about">关于我们</a></li>
+                <li style="display: none;" name="news">
+                    <a href="index.php/news">预警
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div style="float:right;">
+
+            <div class="userpanel" style="float:left;">
+                <div class="userpanel_login" style="display:block">
+                    <a class="mod-btn mod-btn-black login-btn-1 login-qq" href="javascript:void(0)">QQ 登录</a>
+                    <a class="mod-btn mod-btn-black login-btn-2 login-wx" href="javascript:void(0)">微信登录</a>
+                </div>
+                <div class="userpanel_user" style="display:none">
+                    <img class="user_avatar mod-avatar-30" src="" alt="">
+                    <span class="user_username"><i class="i-header-message" style="display:none"></i></span>
+                    <i class="user_arrow"></i>
+                    <div class="user_menu">
+                        <ul class="menu_list">
+                            <li class="list_item list_item-user">
+                                <a href="index.php/user">
+                                    <i class="item_icon"></i>
+                                    <span class="item_text">个人主页</span>
+                                </a>
+                            </li>
+                            <li class="list_item list_item-message">
+                                <a href="index.php/user/message">
+                                    <i class="item_icon"></i>
+                                    <span class="item_text">消息中心</span>
+                                    <i class="item_icon-message" style="display:none"></i>
+                                </a>
+                            </li>
+                            <li class="list_item list_item-account">
+                                <a href="index.php/user/info">
+                                    <i class="item_icon"></i>
+                                    <span class="item_text">账户设置</span>
+                                </a>
+                            </li>
+                            <li class="list_item list_item-logout">
+                                <a id="logout" href="javascript:void(0)">
+                                    <i class="item_icon"></i>
+                                    <span class="item_text">退出</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="header-change">
+                <span class="header-separator"></span>
+                <a href="https://en.security.tencent.com">En</a>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+<div class="container container-home">
+    <div>
+        <!-- section-banner -->
+        <div class="section section-banner">
+            <div class="earth_movemap">
+                <div class="movemap movemap-back movemap-back-0"></div>
+                <div class="movemap movemap-back movemap-back-1"></div>
+                <div class="movemap movemap-back movemap-back-2"></div>
+                <div class="movemap movemap-front movemap-front-0"></div>
+                <div class="movemap movemap-front movemap-front-1"></div>
+                <div class="movemap movemap-front movemap-front-2"></div>
+            </div>
+
+            <div class="stargroup">
+                <div class="mask mask-left"></div>
+                <div class="mask mask-right"></div>
+
+                <div class="stars">
+                </div>
+            </div>
+
+            <div class="section_banner">
+                <div class="banner_acronym">
+                    <div class="acronym_tsrc"></div>
+                </div>
+                <div class="banner_name">
+                    <p>腾讯安全应急响应中心</p>
+                    <p>Tencent Security Response Center</p>
+                </div>
+                <div class="banner_welcome">
+                    <p>诚邀广大安全专家共捍亿万互联网用户安全</p>
+                </div>
+                <div class="banner_submit">
+                    <a href="index.php/report/add" target="_blank">
+                        <!-- 目前暂时采用图片 -->
+                        <!-- 在线提交漏洞 -->
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 公告 section-announcement -->
+        <div class="section section-announcement">
+            <div class="section_announcement">
+                <!-- <a class="announcement_arrowleft" href=""></a> -->
+                <div class="announcement_list">
+                    <ul>
+                        <li><a class="announcement_title" target="_blank" href="index.php/announcement/msg/163">[TPSA19-06]处理公告|2019年3月腾讯外部安全报告处理公告</a><p class="announcement_intro">2019年3月，共59位安全专家通过安全问题反馈平台向腾讯报告安全问题，腾讯对这些安全专家表示感谢（...</p></li><li><a class="announcement_title" target="_blank" href="index.php/announcement/msg/162">[TPSA19-05]“火石计划”正式启动——TSRC站率先展开号角，4倍积分等你拿</a><p class="announcement_intro">2019年，TSRC、JSRC、VSRC携手作战，共同发起“火石计划”，号召所有的白帽火石战士，为各...</p></li>                        <!-- <li>
+                            <a class="announcement_title" href="html/announcementdetail.html">
+                                【2015-8-15】2015年8月腾讯外部安全报告处理公告
+                            </a>
+                            <p class="announcement_intro">
+                                共56位安全专家通过安全问题反馈平台向腾讯报告安全
+                            </p>
+                        </li> -->
+                    </ul>
+                </div>
+
+                <a class="announcement_more" href="index.php/announcement" target="_blank">
+                    更多
+                </a>
+            </div>
+        </div>
+        <!-- 排名(龙虎榜) section-rank -->
+        <div class="section section-rank">
+            <div class="section_rank">
+                <div class="mod-introduce">
+                    <!-- title -->
+                    <div class="introduce_title"></div>
+                    <!-- icongroup -->
+                    <div class="introduce_icongroup">
+                        <span class="icongroup_line"></span>
+                        <i class="icongroup_icon"></i>
+                        <span class="icongroup_line"></span>
+                    </div>
+                    <!-- descript -->
+                    <div class="introduce_description">
+                        <p>各路安全专家长期关注腾讯安全，帮助TSRC提高腾讯产品安全水平，保障了腾讯数亿用户的安全在线生活。</p>
+                    </div>
+                    <!-- more -->
+                    <div class="introduce_more">
+                        <a class="mod-btn mod-btn-black" target="_blank" href="index.php/thanks?timetype=month&holetype=all&year=2019&month=4">更多英雄</a>
+                    </div>
+                </div>
+
+                <!-- 下半部分 -->
+                <div class="rank_hero">
+                    <!-- second -->
+                    <a class="hero hero-second" href="index.php/user/p/C268B4FCD14BE9303EE348AFE8EE5D07" target="_blank">
+                        <div>
+                            <p class="hero_rank">第二名</p>
+                            <div class="hero_avatar">
+                                <img class="mod-avatar mod-avatar-100" src="https://security.tencent.com/uploadimg_dir/201610/obz01fu2elyu4f823twa4656sskk7kho.png" alt="">
+                            </div>
+                            <p class="hero_name">
+                                沦沦                            </p>
+                            <p class="hero_contribution">
+                                贡献值 <span>18点</span>
+                            </p>
+                        </div>
+                    </a>
+                    <!-- first -->
+                    <a class="hero hero-first" href="index.php/user/p/3B4C0F941DD8FDA7D3232E6C5267D38B" target="_blank">
+                        <div>
+                            <p class="hero_rank">第一名</p>
+                            <div class="hero_avatar">
+                                <img class="mod-avatar mod-avatar-100" src="https://security.tencent.com/uploadimg_dir/201903/6ii5e01vwpetr1rek2foi4msk2vn93dl.png" alt="">
+                            </div>
+                            <p class="hero_name">
+                                黑马过林                            </p>
+                            <p class="hero_contribution">
+                                贡献值 <span>18点</span>
+                            </p>
+
+                        </div>
+                    </a>
+                    <!-- third -->
+                    <a class="hero hero-third" href="index.php/user/p/B8B3083DED78861A52225D993471006D" target="_blank">
+                        <div>
+                            <p class="hero_rank">第三名</p>
+                            <div class="hero_avatar">
+                                <img class="mod-avatar mod-avatar-100" src="https://security.tencent.com/uploadimg_dir/201810/cb2apjc365zf4vvqpxu9jzv6yigslfci.png" alt="">
+                            </div>
+                            <p class="hero_name">
+                                upme4                            </p>
+                            <p class="hero_contribution">
+                                贡献值 <span>18点</span>
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 礼品兑换(精美礼品) section-shop -->
+        <div class="section section-shop">
+            <div class="section_shop">
+                <div class="mod-introduce">
+                    <!-- title -->
+                    <div class="introduce_title"></div>
+                    <!-- icongroup -->
+                    <div class="introduce_icongroup">
+                        <span class="icongroup_line"></span>
+                        <i class="icongroup_icon"></i>
+                        <span class="icongroup_line"></span>
+                    </div>
+                    <!-- descript -->
+                    <div class="introduce_description">
+                        <p>丰富的礼品，丰厚的奖励，任您选~</p>
+                    </div>
+                    <!-- more -->
+                    <div class="introduce_more">
+                        <a class="mod-btn mod-btn-black mod-btn-transparent" href="index.php/shop" target="_blank">更多奖品</a>
+                    </div>
+                </div>
+
+                <ul class="mod-itemlist-shop">
+                    <li class="itemlist_item mod-floatblock"><a href="index.php/shop/prize/386" target="_blank"><div class="item_pic"><img src="https://security.tencent.com/uploadimg_dir/201811/48981f7e4d39a9a5a6fa4895a4fe947a.jpg" alt=""></div><p class="item_name">2019年生肖公仔-福气.满满-25cm</p><div class="flag flag-hot"></div></a><p class="item_content">安全币<span class="item_cost">9</span>已兑换<span class="item_exchangednum">115</span>个</p></li><li class="itemlist_item mod-floatblock"><a href="index.php/shop/prize/385" target="_blank"><div class="item_pic"><img src="https://security.tencent.com/uploadimg_dir/201811/3ab021b2b2634c62ab442be34dea7ccd.jpg" alt=""></div><p class="item_name">手机 苹果 iPhone XR(全网通/256G/颜色随机)</p></a><p class="item_content">安全币<span class="item_cost">1579</span>已兑换<span class="item_exchangednum">1</span>个</p></li><li class="itemlist_item mod-floatblock"><a href="index.php/shop/prize/384" target="_blank"><div class="item_pic"><img src="https://security.tencent.com/uploadimg_dir/201811/688b9ba5c2c78827d9f12c12e4dc8156.jpg" alt=""></div><p class="item_name">手机 苹果 iPhone XS max (全网通/256G/颜色随机)</p></a><p class="item_content">安全币<span class="item_cost">2100</span>已兑换<span class="item_exchangednum">5</span>个</p></li><li class="itemlist_item mod-floatblock"><a href="index.php/shop/prize/352" target="_blank"><div class="item_pic"><img src="https://security.tencent.com/uploadimg_dir/201802/7aeb67c6fd003a68833609c3a0ffafff.png" alt=""></div><p class="item_name">苹果IPAD PRO WLAN  256GB (10.5英寸/颜色不限） Pcs</p></a><p class="item_content">安全币<span class="item_cost">1347</span>已兑换<span class="item_exchangednum">0</span>个</p></li><li class="itemlist_item mod-floatblock"><a href="index.php/shop/prize/351" target="_blank"><div class="item_pic"><img src="https://security.tencent.com/uploadimg_dir/201802/4eca568a86d5c3a19a7c4ff204d04b91.png" alt=""></div><p class="item_name">手机 苹果 iPhone X(移动联通电信4G手机/64G/ 颜色随机)</p></a><p class="item_content">安全币<span class="item_cost">1400</span>已兑换<span class="item_exchangednum">5</span>个</p></li><li class="itemlist_item mod-floatblock"><a href="index.php/shop/prize/200" target="_blank"><div class="item_pic"><img src="https://security.tencent.com/uploadimg_dir/201503/5d009e0eaf14d392be5b7fe5793ee306.jpg" alt=""></div><p class="item_name">现金10000元</p><div class="flag flag-hot"></div></a><p class="item_content">安全币<span class="item_cost">2000</span>已兑换<span class="item_exchangednum">230</span>个</p></li><li class="itemlist_item mod-floatblock"><a href="index.php/shop/prize/199" target="_blank"><div class="item_pic"><img src="https://security.tencent.com/uploadimg_dir/201503/e27fdb34e231a1d5e7198d0a20f72ed1.jpg" alt=""></div><p class="item_name">现金5000元</p><div class="flag flag-hot"></div></a><p class="item_content">安全币<span class="item_cost">1000</span>已兑换<span class="item_exchangednum">215</span>个</p></li><li class="itemlist_item mod-floatblock"><a href="index.php/shop/prize/2" target="_blank"><div class="item_pic"><img src="https://security.tencent.com/images/prize_default_img.png" alt=""></div><p class="item_name">Q币100个</p><div class="flag flag-hot"></div></a><p class="item_content">安全币<span class="item_cost">20</span>已兑换<span class="item_exchangednum">3278</span>个</p></li>
+                    <!-- <li class="itemlist_item mod-floatblock">
+                        <a href="shopdetail.html" target="_blank">
+                            <div class="item_pic">
+                                <img src="dist/images-test/home/test-shop-ipadpro.png" alt="">
+                            </div>
+                            <p class="item_name">
+                                iPad Pro
+                            </p>
+                            <div class="flag flag-hot"></div>
+                        </a>
+                        <p class="item_content">
+                            安全币<span class="item_cost">9880</span>已兑换<span class="item_exchangednum">1038</span>个
+                        </p>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- 博客(博客动态) section-blog -->
+        <div class="section section-blog">
+            <div class="section_blog">
+                <div class="mod-introduce">
+                    <!-- title -->
+                    <div class="introduce_title"></div>
+                    <!-- icongroup -->
+                    <div class="introduce_icongroup">
+                        <span class="icongroup_line"></span>
+                        <i class="icongroup_icon"></i>
+                        <span class="icongroup_line"></span>
+                    </div>
+                    <!-- descript -->
+                    <div class="introduce_description">
+                        <p>多年的安全研究经验，最新的技术前沿报告，尽在TSRC博客频道。</p>
+                    </div>
+                    <!-- more -->
+                    <div class="introduce_more">
+                        <a class="mod-btn mod-btn-black" href="index.php/blog" target="_blank">更多博文</a>
+                    </div>
+                </div>
+
+                <ul class="mod-itemlist-blog">
+                    <li class="itemlist_item mod-floatblock"><a href="index.php/blog/msg/133" target="_blank"><div class="item_upperblock"><img src="https://security.tencent.com/uploadimg_dir/201903/ac2438418f1b654df166a952ac39d52b.png" alt=""><div class="upperblock_mask"></div><div class="upperblock_date"><p>25</p><p>Mar</p></div></div><p class="item_title">以攻促防：企业蓝军建设思考</p></a><p class="item_brief">人们在享受网络技术发展带来的便利时，鲜少能意识到头上高悬的达摩克利斯之剑——安全。</p></li><li class="itemlist_item mod-floatblock"><a href="index.php/blog/msg/132" target="_blank"><div class="item_upperblock"><img src="https://security.tencent.com/uploadimg_dir/201903/19d0417e018d2fd5b30c4a1a898e5eb4.png" alt=""><div class="upperblock_mask"></div><div class="upperblock_date"><p>14</p><p>Mar</p></div></div><p class="item_title">旧树开新花——再谈GitHub监控</p></a><p class="item_brief">本文不涉及常见的基于代码关键字匹配的GitHub监控。而是从GitHub的账户出发，通过人的关系来获得一些代码搜索不具有的优势。</p></li><li class="itemlist_item mod-floatblock"><a href="index.php/blog/msg/130" target="_blank"><div class="item_upperblock"><img src="https://security.tencent.com/uploadimg_dir/201903/b7abfa7b114b90e05082a897a6076f19.png" alt=""><div class="upperblock_mask"></div><div class="upperblock_date"><p>06</p><p>Mar</p></div></div><p class="item_title">AI繁荣下的隐忧——Google Tensorflow安全风险剖析</p></a><p class="item_brief">人工智能时代来了！面对一项新技术/新趋势的发展，作为安全研究人员该关注到什么？</p></li>
+                    <!-- <li class="itemlist_item mod-floatblock">
+                        <a href="html/blogdetail.html" target="_blank">
+                            <div class="item_upperblock">
+                                <img src="dist/images-test/home/test-blog-bg-3.jpg" alt="">
+
+                                <div class="upperblock_mask">
+                                </div>
+
+                                <div class="upperblock_date">
+                                    <p>26</p>
+                                    <p>oct</p>
+                                </div>
+                            </div>
+                            <p class="item_title">
+                                title
+                            </p>
+                        </a>
+                        <p class="item_brief">
+                            desc
+                        </p>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- 关于我们 section-aboutus -->
+        <div class="section section-aboutus">
+            <div class="backgrounds">
+                <div class="background"></div>
+                <div class="background"></div>
+                <div class="background"></div>
+                <div class="background"></div>
+
+                <div class="background"></div>
+                <div class="background"></div>
+                <div class="background"></div>
+                <div class="background"></div>
+                <div class="background"></div>
+            </div>
+            <div class="midgrounds">
+                <div class="midground"></div>
+                <div class="midground"></div>
+                <div class="midground"></div>
+                <div class="midground"></div>
+
+                <div class="midground"></div>
+                <div class="midground"></div>
+                <div class="midground"></div>
+                <div class="midground"></div>
+                <div class="midground"></div>
+            </div>
+
+            <div class="stars">
+
+            </div>
+
+
+            <div class="section_aboutus">
+                <div class="mod-introduce">
+                    <!-- title -->
+                    <div class="introduce_title"></div>
+                    <!-- icongroup -->
+                    <div class="introduce_icongroup">
+                        <span class="icongroup_line"></span>
+                        <i class="icongroup_icon"></i>
+                        <span class="icongroup_line"></span>
+                    </div>
+                    <!-- descript -->
+                    <div class="introduce_description">
+                        <p>
+                            腾讯一直致力于保护广大用户的安全，腾讯安全应急响应中心（Tencent Security Response Center）非常欢迎广大用户向我们反馈腾讯产品和业务的安全漏洞，以帮助我们提升产品和业务的安全性。
+                        </p>
+                    </div>
+                    <!-- more -->
+                    <div class="introduce_more">
+                        <a class="mod-btn mod-btn-transparent" href="index.php/about">了解我们</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 确认弹窗 -->
+<div id="base-confirm" class="mod-popup mod-popup-report">
+    <div class="popup_mask">
+    </div>
+    <div class="popup_body">
+        <div class="body_content">
+            <p class="content_title"></p>
+            <p class="content_text"></p>
+        </div>
+        <div class="body_btns">
+            <a class="mod-btn mod-btn-blue" href="javascript:void(0)">确定</a>
+            <a class="mod-btn mod-btn-black" href="javascript:void(0)">取消</a>
+        </div>
+        <i class="i-close"></i>
+    </div>
+</div>
+
+<!-- 提示弹窗 -->
+<div id="base-alert" class="mod-popup mod-popup-success">
+    <div class="popup_mask">
+    </div>
+    <div class="popup_body">
+        <div class="body_content">
+            <p class="content_pic"></p>
+            <p class="content_text">捐款成功，感谢您的无私奉献</p>
+        </div>
+        <div class="i-close"></div>
+    </div>
+</div>
+
+<!-- 登录弹窗 -->
+<div id="base-login-box" class="mod-popup mod-popup-report">
+    <div class="popup_mask">
+    </div>
+    <div class="popup_body">
+        <div class="body_content">
+            <p class="content_title">登录提醒</p>
+            <p class="content_text" style="text-align:center;">
+                系统检测到您还未登录或登录态已失效，请先登录
+            </p>
+            <div class="body_btns">
+                <a href="" class="mod-btn mod-btn-black login-qq" style="border-color:#007cfa;color:#007cfa">QQ 登录</a>
+                <a href="" class="mod-btn mod-btn-black login-wx" style="border-color:#007cfa;color:#007cfa">微信 登录</a>
+            </div>
+        </div>
+        <i class="i-close"></i>
+    </div>
+</div>
+
+<!-- footer -->
+<div class="footer">
+    <div>
+        <div class="footer_about">
+            <p class="about_link">
+                <a href="http://www.tencent.com/" target="_blank">关于腾讯</a>
+                |
+                <a href="http://www.tencent.com/index_e.shtml" target="_blank">About Tencent</a>
+                |
+                <a href="http://www.qq.com/contract.shtml" target="_blank">服务条款</a>
+                |
+                <a href="index.php/about#joinus">加入我们</a>
+                |
+                <a href="index.php/report/add">报告漏洞</a>
+                |
+                <a href="index.php/about#friends">合作伙伴</a>
+                |
+                <a href="http://service.qq.com/" target="_blank">腾讯客服</a>
+            </p>
+            <p class="about_copyright">
+                <span>Copyright &copy; 1998 - 2019 Tencent. All Rights Reserved</span>
+                <span>腾讯公司版权所有</span>
+            </p>
+        </div>
+
+        <div class="footer_contact">
+            <a class="contact_icon-email" href="mailto:security@tencent.com"><i></i><span>专用邮箱</span>|</a>
+            <a class="contact_icon-weibo-sina" href="http://weibo.com/u/1363173330" target="_blank"><i></i><span>新浪微博</span>|</a>
+            <!-- <a class="contact_weibo-tencent" href="javascript:void(0)" target="_blank"><i></i><span>腾讯微博</span>|</a> -->
+            <a class="contact_icon-weixin mod-qrcode" href="javascript:void(0)">
+                <i></i><span>微信公众号</span>
+                <div class="qrcode">
+                    <div class="qrcode_pic">
+                        <img src="uploadimg_dir/other/tsrc-qrcode.jpg" alt="">
+                    </div>
+                    <span class="qrcode_text">扫一扫关注 TSRC 公众号</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div class="shangyang">
+<div id="shangyahng" style="width: 600px;height:400px;"></div>
+<div id="shangyahng1" style="width: 600px;height:400px;"></div>
+</div>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('shangyahng'));
+
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: 'ECharts 入门示例'
+        },
+        tooltip: {},
+        legend: {
+            data:['销量']
+        },
+        xAxis: {
+            data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+        },
+        yAxis: {
+            show:'false',
+        },
+        series: [{
+            name: '销量',
+            type: 'bar',
+            data: [5, 20, 36, 10, 10, 20]
+        }]
+    };
+
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+
+
+    var myChart1 = echarts.init(document.getElementById('shangyahng1'));
+
+    // 指定图表的配置项和数据
+    var option1 = {
+        title:{
+            text:"乌啦啦啦啦啦",
+        },
+        xAxis: {
+            type: 'category',
+            axisLine:{
+                lineStyle:{
+                    show:'true',
+                },
+                symbol:['none','arrow'],
+            },
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            data: [820, 932, 901, 934, 1290, 1330, 1320],
+            type: 'line',
+            smooth: true
+        }]
+    };
+
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart1.setOption(option1);
+</script>
+
+</body>
+
+<!-- csrc_token -->
+<div id="csrf_div">
+    <form action="https://security.tencent.com/index.php" method="post" accept-charset="utf-8" class="form_horizontal"><div style="display:none">
+        <input type="hidden" name="csrf_token" value="66bc208e10783320fa346076e2d8ed9d" />
+    </div>        </form>    </div>
+
+<script type="text/javascript" src="static/plugins/sea.js?t=20151230"></script>
+<script type="text/javascript" src="static/v2.0/js/config.js?t=20180410"></script>
+<script type="text/javascript">
+    $(function() {
+        $.getScript("https://pingjs.qq.com/tcss.fixedcgi.https.js", function() {
+            var pgvInterv = window.setInterval(function() {
+                window.clearInterval(pgvInterv);
+                if (typeof(pgvMain) == 'function') {
+                    pgvMain();
+                }
+            });
+        });
+    });
+</script>
+
+
+</html>

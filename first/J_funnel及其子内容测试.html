@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>type:'funnel'标签及其子内容测试</title>
+    <script src="echarts_js/echarts.min.js"></script>
+</head>
+<body>
+<h1>type:'funnel'标签及其子内容测试</h1>
+<p>李京洋的漏斗图</p>
+<div id="shangyang" style="width: 600px;height:400px;"></div>
+<script>
+    var myChart = echarts.init(document.getElementById('shangyang'));
+    var option = {
+        title: {
+            text: '李京洋的漏斗图',
+            subtext: '纯属虚构'
+        },
+        calculable: true,
+        series: [
+            {
+                name:'漏斗图',
+                type:'funnel',
+                left: '10%',
+                top: 60,
+                bottom: 60,
+                width: '80%',
+                min: 0,                // 指定的数据最小值
+                max: 100,              // 指定的数据最大值
+                minSize: '0%',         // 数据最小值min映射的宽度
+                maxSize: '100%',       // 数据最大值max映射的宽度
+                sort: 'descending',    // 数据排序
+                gap: 2,                // 数据图形间距
+                funnelAlign: 'center', // 水平方向对齐布局类型
+                label: {               // 漏斗图图形上的文本标签
+                    show: true,
+                    position: 'inside'
+                },
+                labelLine: {           // 标签的视觉引导线样式
+                    length: 10,
+                    lineStyle: {
+                        width: 1,
+                        type: 'solid'
+                    }
+                },
+                itemStyle: {           // 图形样式
+                    borderColor: '#fff',
+                    borderWidth: 1
+                },
+                emphasis: {            // 高亮的标签和图形样式
+                    label: {
+                        fontSize: 20
+                    }
+                },
+                data: [                // 系列中的数据内容数组
+                    {value: 60, name: '访问'},
+                    {value: 40, name: '咨询'},
+                    {value: 20, name: '订单'},
+                    {value: 80, name: '点击'},
+                    {value: 100, name: '展现'}
+                ]
+            }
+        ]
+    };
+
+
+    myChart.setOption(option);  
+</script>
+</body>
+</html>

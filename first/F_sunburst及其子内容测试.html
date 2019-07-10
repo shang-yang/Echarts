@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>type:'sunberst'标签及其子内容的测试</title>
+    <script src="echarts_js/echarts.min.js"></script>
+</head>
+<body>
+<h1>type:'sunberst'标签及其子内容的测试</h1>
+<p>李京洋的旭日图</p>
+<div id="shangyang" style="width: 600px;height:400px;"></div>
+<script>
+
+    var myChart = echarts.init(document.getElementById('shangyang'));
+    var item1 = {
+        color: '#43CD80'
+    };
+    var item2 = {
+        color: '#458B00'
+    };
+    var item3 = {
+        color: '#48D1CC'
+    };
+
+    var data = [{
+        children: [{
+            value: 5,
+            children: [{
+                value: 1,
+                itemStyle: item1
+            }, {
+                value: 2,
+                children: [{
+                    value: 1,
+                    itemStyle: item2
+                }]
+            }, {
+                children: [{
+                    value: 1
+                }]
+            }],
+            itemStyle: item1
+        }, {
+            value: 10,
+            children: [{
+                value: 6,
+                children: [{
+                    value: 1,
+                    itemStyle: item1
+                }, {
+                    value: 1
+                }, {
+                    value: 1,
+                    itemStyle: item2
+                }, {
+                    value: 1
+                }],
+                itemStyle: item3
+            }, {
+                value: 2,
+                children: [{
+                    value: 1
+                }],
+                itemStyle: item3
+            }, {
+                children: [{
+                    value: 1,
+                    itemStyle: item2
+                }]
+            }],
+            itemStyle: item1
+        }],
+        itemStyle: item1
+    }, {
+        value: 9,
+        children: [{
+            value: 4,
+            children: [{
+                value: 2,
+                itemStyle: item2
+            }, {
+                children: [{
+                    value: 1,
+                    itemStyle: item1
+                }]
+            }],
+            itemStyle: item1
+        }, {
+            children: [{
+                value: 3,
+                children: [{
+                    value: 1
+                }, {
+                    value: 1,
+                    itemStyle: item2
+                }]
+            }],
+            itemStyle: item3
+        }],
+        itemStyle: item2
+    }, {
+        value: 7,
+        children: [{
+            children: [{
+                value: 1,
+                itemStyle: item3
+            }, {
+                value: 3,
+                children: [{
+                    value: 1,
+                    itemStyle: item2
+                }, {
+                    value: 1
+                }],
+                itemStyle: item2
+            }, {
+                value: 2,
+                children: [{
+                    value: 1
+                }, {
+                    value: 1,
+                    itemStyle: item1
+                }],
+                itemStyle: item1
+            }],
+            itemStyle: item3
+        }],
+        itemStyle: item1
+    }, {
+        children: [{
+            value: 6,
+            children: [{
+                value: 1,
+                itemStyle: item2
+            }, {
+                value: 2,
+                children: [{
+                    value: 2,
+                    itemStyle: item2
+                }],
+                itemStyle: item1
+            }, {
+                value: 1,
+                itemStyle: item3
+            }],
+            itemStyle: item3
+        }, {
+            value: 3,
+            children: [{
+                value: 1,
+            }, {
+                children: [{
+                    value: 1,
+                    itemStyle: item2
+                }]
+            }, {
+                value: 1
+            }],
+            itemStyle: item3
+        }],
+        itemStyle: item1
+    }];
+
+    var option = {
+        series: {
+            center:['50%','50%'],          // 旭日图的中心（圆心）坐标
+            radius: ['15%', '80%'],        // 旭日图的半径
+            type: 'sunburst',              
+            sort: 'desc',                  // 扇形块根据数据value的排序方式
+            highlightPolicy: 'descendant', // 当鼠标移动到一个扇形块时，可以高亮相关的扇形块
+            nodeClick:'rootToNode',        // 点击节点后的行为
+            renderLabelForZeroData:false,  // 如果数据没有name，是否需要渲染文字
+            highlight:{},                  // 鼠标悬停后相关扇形块的配置项
+            downplay:{},                   // 鼠标悬停后不相关扇形块的配置项
+            data: data,                    //
+            label: {                       // 描述了每个扇形块中，文本标签的样式
+                rotate: 'radial'           // 表示径向旋转
+            },
+            levels: [],                    // 多层配置
+            itemStyle: {                   // 旭日图扇形块的样式
+                color: '#ddd',
+                borderWidth: 2
+            }
+        }
+    };
+
+    myChart.setOption(option);  
+</script>
+</body>
+</html>

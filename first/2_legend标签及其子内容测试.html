@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>legend标签及其子内容</title>
+    <script src="echarts_js/echarts.min.js"></script>
+</head>
+<body>
+<h1>legend标签及其子内容测试</h1>
+<p>李京洋的图例组件</p>
+<div id="shangyang" style="width: 600px;height:600px;"></div>
+<script>
+    var myChart = echarts.init(document.getElementById('shangyang'));
+    var option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            legend: {
+                type:'scroll',                      // 可滚动翻页的图例。当图例数量较多时可以使用。
+                zlevel:9999999999999999999999999999,
+                z:9999999999999999999999999,
+                left:'1%',                          // 图例组件离容器左侧的距离。
+                top:'5%',                           // 图例组件离容器上侧的距离。
+                orient: 'vertical',                 // 图例列表的布局朝向。
+                height:'300',                       // 图例组件的高度
+                padding: [10, 1],                   // 图例内边距
+                itemGap:20,                         // 图例每项之间的间隔。横向布局时为水平间隔，纵向布局时为纵向间隔。
+                itemWidth:30,                       // 图例标记的图形宽度。
+                itemHeight:20,                      // 图例标记的图形高度。
+                symbolKeepAspect:true,              // 是否在缩放时保持该图形的长宽比。
+                selectedMode:'multiple',            // 图例选择的模式，控制是否可以通过点击图例改变系列的显示状态。
+                inactiveColor:'Gray',               // 图例关闭时的颜色。
+                selected: {                         // 图例选中状态表。
+                    '充数1': false,
+                    '充数2': false,
+                    '充数3': false,
+                },
+                textStyle:{                         // 图例的公用文本样式。
+                    color:'SaddleBrown',
+                    fontStyle:'normal',
+                    fontWeight:'bold',
+                    fontFamily: 'Courier New',
+                    fontSize:20,
+                    backgroundColor:'Snow',
+                    borderColor:'SlateBlue',
+                    borderWidth:2,
+                    borderRadius:45,
+                    textBorderColor:'blue',
+                    textBorderWidth:1,
+                },
+                x: 'left',
+                data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎','充数1','充数2','充数3'],
+                backgroundColor:'PaleGoldenRod ',     // 图例背景色，默认透明。
+                borderColor:'Navy ',                  // 图例的边框颜色。
+                borderWidth:2,                        // 图例的边框线宽。
+                borderRadius:30,                      // 圆角半径，单位px，
+                shadowBlur:15,                        // 图形阴影的模糊大小
+                shadowColor:'MediumAquaMarine ',      // 阴影颜色。
+                shadowOffsetX:5,                      // 阴影水平方向上的偏移距离。
+                shadowOffsetY:5,                      // 阴影垂直方向上的偏移距离。
+                scrollDataIndex:5,                    // 可决定当前图例滚动到哪里。
+                pageButtonItemGap:10,                 // 图例控制块中，按钮和页信息之间的间隔。
+                pageButtonPosition:'end',             // 按钮快在右或下。
+                pageIconColor:'DarkOliveGreen ',      // 翻页按钮的颜色。
+                animation:true,                       // 图例翻页是否使用动画。
+                animationDurationUpdate:1000          // 图例翻页时的动画时长。
+            },
+            series: [
+                {
+                    name:'访问来源',
+                    type:'pie',
+                    radius: ['50%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                fontSize: '30',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data:[
+                        {value:335, name:'直接访问'},
+                        {value:310, name:'邮件营销'},
+                        {value:234, name:'联盟广告'},
+                        {value:135, name:'视频广告'},
+                        {value:154, name:'搜索引擎'},
+                        {value:148, name:'充数1'},
+                        {value:345, name:'充数2'},
+                        {value:544, name:'充数3'},
+                    ]
+                }
+            ]
+        };
+
+
+    myChart.setOption(option);  
+</script>
+</body>
+</html>
